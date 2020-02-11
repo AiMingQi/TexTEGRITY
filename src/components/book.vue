@@ -18,7 +18,7 @@
                             v-img(src="http://ipfs.io/ipfs/Qmd88ordzwMSfiGmWio78q7cKBivm6VucE8Qjx9fKCx4ac")
                             v-scroll-y-transition
                                 div.display-3.flex-grow-1.text-center(v-if="active")
-                    v-btn(@click="open3box") 3box
+                    v-btn(@click="open3box") 3box Test
                         
 </template>
 
