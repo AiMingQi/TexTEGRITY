@@ -10,6 +10,9 @@
   "dependencies": {
     "3box": "^1.16.2",
     "core-js": "^3.6.4",
+    "fibers": "^4.0.2",
+    "ipfs-api": "^26.1.2",
+    "node-sass": "^4.13.1",
     "vue": "^2.6.11",
     "vuetify": "^2.1.0"
   },

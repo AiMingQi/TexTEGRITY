@@ -83,16 +83,19 @@
 
     <v-content>      
       <book></book>
+      <upload></upload>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import book from "./components/book.vue"
+import upload from "./components/upload.vue"
 
   export default {
     components: { 
-      book
+      book,
+      upload
     },
     props: {
       source: String,
