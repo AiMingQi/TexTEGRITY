@@ -84,6 +84,7 @@
     <v-content>      
       <book></book>
       <upload></upload>
+      <fortmatic></fortmatic>
     </v-content>
   </v-app>
 </template>
@@ -91,11 +92,14 @@
 <script>
 import book from "./components/book.vue"
 import upload from "./components/upload.vue"
+import fortmatic from "./components/fortmatic.vue"
+
 
   export default {
     components: { 
       book,
-      upload
+      upload,
+      fortmatic
     },
     props: {
       source: String,

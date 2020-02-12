@@ -15,10 +15,14 @@
                             height="200"
                             @click="toggle"
                             )
-                            v-img(src="http://ipfs.io/ipfs/Qmd88ordzwMSfiGmWio78q7cKBivm6VucE8Qjx9fKCx4ac")
+                            v-card-title
+                                h1 Book Title
+                            v-card-text
+                                v-img(src="http://ipfs.io/ipfs/Qmd88ordzwMSfiGmWio78q7cKBivm6VucE8Qjx9fKCx4ac")
+                            v-card-action
+                                v-btn(@click="open3box") 3box Test
                             v-scroll-y-transition
                                 div.display-3.flex-grow-1.text-center(v-if="active")
-                    v-btn(@click="open3box") 3box Test
                         
 </template>
 
