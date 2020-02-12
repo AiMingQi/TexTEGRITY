@@ -1,27 +1,37 @@
 <template lang="pug">
-    v-item-group
-        v-container
-            v-row
-                v-col(
-                    v-for="n in 3"
-                    :key="n"
-                    cols="12"
-                    md="4"
-                    )
-                    v-item(v-slot:default="{ active, toggle }")
-                        v-card(:color="active ? 'primary' : ''"
-                            class="d-flex align-center"
-                            dark
-                            height="300"
-                            @click="toggle"
-                            )
-                            v-card-title
-                                h3 Book Title
-                            v-card-text
-                                v-img(src="http://ipfs.io/ipfs/Qmd88ordzwMSfiGmWio78q7cKBivm6VucE8Qjx9fKCx4ac")
-                            v-scroll-y-transition
-                                div.display-3.flex-grow-1.text-center(v-if="active")
-                        
+    v-card.mx-auto(max-width="400")
+        v-img.white--text.align-end(
+            height="300px"
+            src="http://ipfs.io/ipfs/QmcWfefEnW6o2iEZ4BUShb1yqt7tCjKVKEZ1zNiZCzkrcH"
+            position="top center"
+            )
+        v-btn(
+            color="orange"
+            text
+            block
+            large
+            ) Buy Book
+        v-card-title.mt-3
+            h3 ETH Denver 2020 Book
+        v-card-subtitle.pb-0.mb-3
+            h4 A book about changing the world
+        v-card-text.text--primary
+            div 
+                p This book is an awesome exploration of the ways in which ETH Denver completely reshaped the entire world.  By empowering Buidlers from all over the world to come together to create new decentralized brilliance.
+                p #Pegabuffacorn
+        v-card-actions
+            v-btn(
+                color="green"
+                href="https://pepo.com/"
+                target="_blank"
+                rel="noopener"
+                text
+                ) Share
+            //- v-btn(
+            //-     color="blue"
+            //-     text
+            //-     ) Explore
+            
 </template>
 
 <script>

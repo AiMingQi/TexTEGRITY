@@ -1,10 +1,12 @@
 <template lang="pug">
     v-container
         v-card
+            v-card-title
+                h2 Fortmatic Tools
             v-card-actions 
                 v-btn(@click="checkFm") Check Fm 
-            v-card-title    
-                p web3 provided by: {{fm.currentProvider.fortmaticClient}}
+            v-card-text
+                h4 web3 provided by: {{fm.currentProvider.fortmaticClient}}
 
 </template>
 <script>

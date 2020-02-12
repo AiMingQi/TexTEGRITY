@@ -9,9 +9,11 @@
         <v-list-item
           v-for="item in items"
           :key="item.text"
-          link
+          :href="item.link"
+          target="_blank"
+          rel="noopener"
         >
-          <v-list-item-action>
+          <v-list-item-action >
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
@@ -114,7 +116,7 @@ import box from "./components/3box.vue"
         { icon: 'trending_up', text: 'Most Popular' },
         { icon: 'subscriptions', text: 'Subscriptions' },
         { icon: 'history', text: 'History' },
-        { icon: 'featured_play_list', text: 'Playlists' },
+        { icon: 'featured_play_list', text: 'ETH Denver 2020', link: "https://ethdenver.com" },
       ],
       items2: [
         { picture: 28, text: 'Vitalik' },
