@@ -1,7 +1,7 @@
 <template lang="pug">
     v-container
         v-card
-            v-card-action 
+            v-card-actions 
                 v-btn(@click="checkFm") Check Fm 
             v-card-title    
                 p web3 provided by: {{fm.currentProvider.fortmaticClient}}
