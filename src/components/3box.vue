@@ -38,6 +38,9 @@ export default {
            const spaceList = await Box.listSpaces(this.address)
            this.boxSpaceList = spaceList
            console.log(spaceList)
+           const spaceData = await Box.getSpace(this.address)
+           this.boxSpaceData = spaceData
+           console.log(spaceData)
         }
     }
 }

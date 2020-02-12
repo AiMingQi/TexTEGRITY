@@ -97,6 +97,7 @@ import book from "./components/book.vue"
 import upload from "./components/upload.vue"
 import fortmatic from "./components/fortmatic.vue"
 import box from "./components/3box.vue"
+import web3 from "./web3"
 
 
   export default {
@@ -125,9 +126,11 @@ import box from "./components/3box.vue"
         { picture: 58, text: 'Charles' },
         { picture: 78, text: 'Vlad' },
       ],
+      web3: "No web3 yet"
     }),
     created () {
       this.$vuetify.theme.dark = true
+      console.log("What is our web3?",web3)
     },
   }
 </script>
