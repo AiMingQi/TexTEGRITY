@@ -7,7 +7,10 @@
                 v-btn(@click="open3box") open 3Box
                 p {{boxProfile.name}}
                 p {{boxProfileImageUrl}}
-                v-img(:src="boxProfileImageUrl")
+                v-img(
+                    :src="boxProfileImageUrl"
+                    max-width="200px"
+                    )
 </template>
 
 <script>

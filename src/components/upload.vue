@@ -8,8 +8,10 @@
                     label="File input"
                     v-model="file"
                     )
-                v-btn(@click="uploadFile") Create Buffer
-                v-btn(@click="ipfsUpload") Send to IPFS
+                div.mx-auto
+                    v-btn.mx-3(@click="uploadFile") Create Buffer
+                    v-btn.mx-3(@click="encryptFile") Encrypt File
+                    v-btn.mx-3(@click="ipfsUpload") Send to IPFS
 
 </template>
 <script>
@@ -36,6 +38,9 @@ export default {
                     this.fileBuffer = new Uint8Array(arrayBuffer);
                     console.log("Buffer: ", this.fileBuffer);
                 }
+        },
+        encryptFile () {
+            console.log('Encrypting...')
         },
         async ipfsUpload () {
             console.log("Uploading...");
