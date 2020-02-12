@@ -12,6 +12,10 @@
                     v-btn.mx-3(@click="uploadFile") Create Buffer
                     v-btn.mx-3(@click="encryptFile") Encrypt File
                     v-btn.mx-3(@click="ipfsUpload") Send to IPFS
+                    p {{fileHash}}
+                    p {{fileHashUrl}}
+                    a(:href="fileHashUrl" download target="_blank") Link
+                    
 
 </template>
 <script>
@@ -21,7 +25,10 @@ export default {
         return {
             file: null,
             selectedFile: null,
-            fileBuffer: null
+            fileBuffer: null,
+            fileHash: null,
+            fileHashUrl: null,
+
         }
     },
     methods: {
@@ -30,14 +37,15 @@ export default {
             
         },
         uploadFile () {
-             const reader = new FileReader;
-                reader.readAsArrayBuffer(this.file);
-                console.log("Buffering...")
-                reader.onload = function() {
-                    var arrayBuffer = reader.result;
-                    this.fileBuffer = new Uint8Array(arrayBuffer);
-                    console.log("Buffer: ", this.fileBuffer);
-                }
+            const reader = new FileReader;
+            reader.readAsArrayBuffer(this.file);
+            console.log("Buffering...", this.file)
+            reader.onloadend = () => {
+                this.fileBuffer = Buffer(reader.result)
+                // var arrayBuffer = reader.result;
+                // this.fileBuffer = new Uint8Array(arrayBuffer);
+            console.log("Buffer: ", this.fileBuffer);
+            }
         },
         encryptFile () {
             console.log('Encrypting...')
@@ -46,10 +54,14 @@ export default {
             console.log("Uploading...");
             ipfs.add(this.fileBuffer, (error, result) => {
                 if (error || !result) {
-                console.log("Error!");
+                console.log("Error!")
+                return;
                 }
                 else {
-                console.log("Success!");
+                this.fileHash = result[0].hash
+                this.fileHashUrl = "http://ipfs.io/ipfs/" + this.fileHash
+                console.log("Success!")
+                return;
                 }
             });
         }

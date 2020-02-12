@@ -66,6 +66,7 @@
       <v-icon class="mx-4">fab fa-youtube</v-icon>
       <v-toolbar-title class="mr-12 align-center">
         <span class="title">TexTEGRITY</span>
+        <!-- <span>{{web3account}}</span> -->
       </v-toolbar-title>
       <v-spacer />
       <v-row
@@ -87,7 +88,7 @@
       <book></book>
       <upload></upload>
       <fortmatic></fortmatic>
-      <box></box>
+      <box :address="OWNER_ADDRESS"></box>
     </v-content>
   </v-app>
 </template>
@@ -98,6 +99,7 @@ import upload from "./components/upload.vue"
 import fortmatic from "./components/fortmatic.vue"
 import box from "./components/3box.vue"
 import web3 from "./web3"
+import {store} from './store'
 
 
   export default {
@@ -126,11 +128,19 @@ import web3 from "./web3"
         { picture: 58, text: 'Charles' },
         { picture: 78, text: 'Vlad' },
       ],
-      web3: "No web3 yet"
+      OWNER_ADDRESS: null,
+      store
     }),
     created () {
       this.$vuetify.theme.dark = true
-      console.log("What is our web3?",web3)
+      this.web3account = web3.eth.getAccounts((error, accounts) => {
+                console.log(accounts);
+                console.log('Web3 Capable Account Found');
+                // this.OWNER_ADDRESS = accounts[0]
+                this.store.OWNER_ADDRESS = accounts[0];
+                this.grabbingAddress = false;
+            });
+      console.log("What is our web3 address?",this.web3account)
     },
   }
 </script>

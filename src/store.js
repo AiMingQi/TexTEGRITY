@@ -1,0 +1,3 @@
+export const store = {
+    OWNER_ADDRESS: '0xC1D54fEB9f13F88E3fD098a4205DBF0d952340F0'
+}
