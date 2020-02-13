@@ -1,44 +1,54 @@
 <template lang="pug">
     v-container
         v-card
-            v-card-title Author Upload
-            v-card.pa-2
+            v-card-title 
+                h2 Author Upload
+            v-card.pa-5
                 p {{now}}
-                v-file-input(
-                    show-size 
-                    label="Book Cover"
-                    accept=".png,.jpg"
-                    v-model="bookCoverImg"
+                v-card.pa-5(light)
+                    h3 Step 1 - Upload Book Cover Image to IPFS (.png or .jpg)- Max size 1MB
+                    v-file-input(
+                        show-size 
+                        label="Book Cover"
+                        accept=".png,.jpg"
+                        v-model="bookCoverImg"
+                        )
+                    div.mx-auto.pa-5
+                        v-btn.mx-3(@click="uploadBookCover") Book Cover Upload
+                        v-btn.mx-3(@click="bookImgUploadIpfs") Send to IPFS
+                        p.mt-3 Book Cover IPFS Hash: {{bookImgHash}}
+                        v-img.mx-auto(:src="bookImgHashUrl" v-if="bookImgHashUrl" max-width="600px")
+                        a(:href="bookImgHashUrl" download target="_blank") Link
+                v-card.pa-5
+                    v-card-title
+                        h2 Book Listing Details
+                    v-text-field(
+                        v-model="bookTitle"
+                        label="Title"
+                        )
+                    v-text-field(
+                        v-model="bookPrice"
+                        label="Price"
+                        prefix="$"
+                        )
+                    v-textarea(
+                        v-model="bookDescription"
+                        label="Description"
                     )
-                div.mx-auto
-                    v-btn.mx-3(@click="uploadBookCover") Book Cover Upload
-                    v-btn.mx-3(@click="bookImgUploadIpfs") Send to IPFS
-                    p Book Cover IPFS Hash: {{bookImgHash}}
-                    v-img(:src="bookImgHashUrl" v-if="bookImgHashUrl")
-                    a(:href="bookImgHashUrl" download target="_blank") Link
-                v-text-field(
-                    v-model="bookTitle"
-                    label="Title"
-                    )
-                v-text-field(
-                    v-model="bookPrice"
-                    label="Price"
-                    prefix="$"
-                    )
-                v-textarea(
-                    v-model="bookDescription"
-                    label="Description"
-                )
-                v-text-field(
-                    v-model="bookKeywords"
-                    label="Keywords"
-                    )
-                div.mx-auto
-                    v-btn(@click="createJson") Create JSON
-                    v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
-                    p {{listingStuffJson}}
-                    p Listing IPFS Hash: {{listingJsonHash}}
-                    a(:href="listingJsonHashUrl" download target="_blank") Link
+                    v-text-field(
+                        v-model="bookKeywords"
+                        label="Keywords"
+                        )
+                    v-card-actions.mx-auto
+                        v-btn(@click="createJson") Create JSON
+                        v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
+                    div
+                        v-btn(@click="writeToETH") Test Ethereum
+                        p This message is coming from Ethereum {{returnedString}}
+                    v-card-text
+                        p {{listingStuffJson}}
+                        p Listing IPFS Hash: {{listingJsonHash}}
+                        a(:href="listingJsonHashUrl" download target="_blank") Link
                 //- v-file-input(
                 //-     show-size 
                 //-     label="File input"
@@ -58,6 +68,9 @@
 import ipfs from '../ipfs'
 import moment from 'moment'
 import axios from 'axios'
+import web3 from '../web3'
+import abi from '../contracts/TexTEGRITY.json';
+
 export default {
     data () {
         return {
@@ -76,12 +89,29 @@ export default {
             bookImgHashUrl: null,
             bookDescription: 'Needs Descriptions',
             bookKeywords: "#Pegabuffacorn",
+            returnedString: "",
             listingStuffJson: {
                 
             },
         }
     },
     methods: {
+        // GetBatch: async (web3,address) => {
+        //     console.log("Getting batch at address: " + address);
+        //     var newBatch = await new web3.eth.Contract(Batch.abi, address);
+        //     return newBatch;
+        // },
+        async writeToETH () {
+            const address = "0x32f7283006d3D025ddFfAe645312d15eBaAF0Bbc" // Your account address goes here
+            console.log("Getting batch at address: " + address);
+            var randomString = await new web3.eth.Contract(abi, address);
+            var returnedString = await randomString.methods.get().call();
+            this.returnedString = returnedString
+            console.log("Returned from Ethereum",returnedString)
+            // return newBatch;
+            // let getString = await ContractTasks.Get(g_Web3, address);  
+            // console.log("String from Ethereum", getString)
+        },
         createJson () {
             let listingStuff = {
                 "img": this.bookImgHashUrl,
