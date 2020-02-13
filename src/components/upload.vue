@@ -13,12 +13,17 @@
                 div.mx-auto
                     v-btn.mx-3(@click="uploadBookCover") Book Cover Upload
                     v-btn.mx-3(@click="bookImgUploadIpfs") Send to IPFS
-                    p IPFS Hash: {{bookImgHash}}
+                    p Book Cover IPFS Hash: {{bookImgHash}}
                     v-img(:src="bookImgHashUrl" v-if="bookImgHashUrl")
                     a(:href="bookImgHashUrl" download target="_blank") Link
                 v-text-field(
                     v-model="bookTitle"
                     label="Title"
+                    )
+                v-text-field(
+                    v-model="bookPrice"
+                    label="Price"
+                    prefix="$"
                     )
                 v-textarea(
                     v-model="bookDescription"
@@ -28,6 +33,12 @@
                     v-model="bookKeywords"
                     label="Keywords"
                     )
+                div.mx-auto
+                    v-btn(@click="createJson") Create JSON
+                    v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
+                    p {{listingStuffJson}}
+                    p Listing IPFS Hash: {{listingJsonHash}}
+                    a(:href="listingJsonHashUrl" download target="_blank") Link
                 //- v-file-input(
                 //-     show-size 
                 //-     label="File input"
@@ -45,28 +56,47 @@
 </template>
 <script>
 import ipfs from '../ipfs'
+import moment from 'moment'
+import axios from 'axios'
 export default {
     data () {
         return {
             file: null,
             selectedFile: null,
             fileBuffer: null,
+            listingJsonString: null,
+            listingJsonHash: null,
+            listingJsonHashUrl: null,
             fileHash: null,
             fileHashUrl: null,
             bookTitle: 'Untitled',
+            bookPrice: 0,
             bookCoverImg: null,
             bookImgHash: null,
             bookImgHashUrl: null,
             bookDescription: 'Needs Descriptions',
             bookKeywords: "#Pegabuffacorn",
-            bookListing: {
-                img: this.bookImgHashUrl,
-                title: this.bookTitle,
-                description: this.bookDescription
-            }
+            listingStuffJson: {
+                
+            },
         }
     },
     methods: {
+        createJson () {
+            let listingStuff = {
+                "img": this.bookImgHashUrl,
+                "title": this.bookTitle,
+                "price": this.bookPrice,
+                "description": this.bookDescription,
+                "keywords": this.bookKeywords
+            }
+            this.listingStuffJson = listingStuff
+            // console.log("Book Listing", listingStuff)
+            // const listingJson = JSON.stringify(listingStuff)
+            // console.log(listingJson)
+            // this.listingJsonString = listingJson
+            // return listingJson;
+        },
         selectFile (event) {
             this.selectedFile = event
             
@@ -93,9 +123,6 @@ export default {
             console.log("Buffer: ", this.bookImgBuffer);
             }
         },
-        createJson () {
-            // const data = JSON.stringify(this.arr)
-        },
         encryptFile () {
             console.log('Encrypting...')
         },
@@ -113,6 +140,32 @@ export default {
                     return;
                 }
             })
+        },
+        async bookListingUploadIpfs () {
+            console.log("Uploading...", this.listingStuffJson);
+            const listJsonString = JSON.stringify(this.listingStuffJson)
+            const buffer = Buffer.from(listJsonString)
+            ipfs.add(buffer, (error, result) => {
+                if (error || !result) {
+                    console.log("Error!")
+                    return;
+                }
+                else {
+                    this.listingJsonHash = result[0].hash
+                    this.listingJsonHashUrl = "https://ipfs.io/ipfs/" + this.listingJsonHash
+                    console.log("Listing Json Uploaded to IPFS!")
+                    axios.get(this.listingJsonHashUrl)
+                        .then(function (response) {
+                            // handle success
+                            console.log(response);
+                        })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                    return;
+                }
+            });
         },
         async ipfsUpload () {
             console.log("Uploading...");
@@ -154,7 +207,9 @@ export default {
             return listingJson
         },
         now: function () {
-            return Date.now()
+            let now = Date.now()
+            let formatedNow = moment(now).format('MMMM Do YYYY, h:mm:ss a');
+            return formatedNow;
         } 
     }
 }

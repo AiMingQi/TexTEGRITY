@@ -5,6 +5,7 @@
       app
       clipped
     >
+      <v-img class="mx-auto mt-5" src="https://infura.io/ipfs/QmP3Gb6zmUtA4JGMbvBNzK2PXaRQUagbRdPWTNVQCo5due" max-width="200px" contain></v-img>
       <v-list dense>
         <v-list-item
           v-for="item in items"
@@ -63,8 +64,8 @@
       dense
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-icon class="mx-4">fab fa-youtube</v-icon>
-      <v-toolbar-title class="mr-12 align-center">
+      <v-toolbar-title class="mr-12 align-left">
+        
         <span class="title">TexTEGRITY</span>
         <!-- <span>{{web3account}}</span> -->
       </v-toolbar-title>
@@ -117,8 +118,6 @@ import {store} from './store'
       items: [
         { icon: 'home', text: 'Home' },
         { icon: 'trending_up', text: 'Most Popular' },
-        { icon: 'subscriptions', text: 'Subscriptions' },
-        { icon: 'history', text: 'History' },
         { icon: 'featured_play_list', text: 'ETH Denver 2020', link: "https://ethdenver.com" },
       ],
       items2: [
