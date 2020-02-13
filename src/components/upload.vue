@@ -27,6 +27,10 @@
                         label="Title"
                         )
                     v-text-field(
+                        v-model="bookAuthor"
+                        label="Author"
+                        )
+                    v-text-field(
                         v-model="bookPrice"
                         label="Price"
                         prefix="$"
@@ -42,13 +46,16 @@
                     v-card-actions.mx-auto
                         v-btn(@click="createJson") Create JSON
                         v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
-                    div
-                        v-btn(@click="writeToETH") Test Ethereum
-                        p This message is coming from Ethereum {{returnedString}}
                     v-card-text
                         p {{listingStuffJson}}
                         p Listing IPFS Hash: {{listingJsonHash}}
                         a(:href="listingJsonHashUrl" download target="_blank") Link
+                    v-card.pa-5.ma-5(light)
+                        v-btn(@click="getMessageFromETH") Get Current Featured
+                        p.mt-3 This image is coming from a Smart Contract on Ethereum from IPFS
+                        v-img.mx-auto(:src="returnedString" max-width="600px")
+                            span.blue--text.ml-5 {{bookImgHashUrl}}
+                        v-btn(@click="setMessageToETH") Set Featured
                 //- v-file-input(
                 //-     show-size 
                 //-     label="File input"
@@ -70,6 +77,7 @@ import moment from 'moment'
 import axios from 'axios'
 import web3 from '../web3'
 import abi from '../contracts/TexTEGRITY.json';
+import {store} from '../store'
 
 export default {
     data () {
@@ -82,17 +90,20 @@ export default {
             listingJsonHashUrl: null,
             fileHash: null,
             fileHashUrl: null,
-            bookTitle: 'Untitled',
-            bookPrice: 0,
+            bookTitle: 'Wrecklessly Absurd',
+            bookAuthor: 'Chance JJ Edric',
+            bookPrice: 13.99,
             bookCoverImg: null,
             bookImgHash: null,
             bookImgHashUrl: null,
-            bookDescription: 'Needs Descriptions',
-            bookKeywords: "#Pegabuffacorn",
+            bookDescription: 'This book will continue what the first started. The last book was a collection of all the crazy stories in my life. I tried to not only make sense of the absurd, but also to hopefully give my kids, and you, an alternate perspective on life. These are true stories from my life infused with some twists and turns that happen to each and every one of us. Daily.',
+            bookKeywords: "#Pegabuffacorn #ChanceEncounters",
             returnedString: "",
+            currentEthImageUrl: "",
             listingStuffJson: {
                 
             },
+            store
         }
     },
     methods: {
@@ -101,13 +112,26 @@ export default {
         //     var newBatch = await new web3.eth.Contract(Batch.abi, address);
         //     return newBatch;
         // },
-        async writeToETH () {
+        async getMessageFromETH () {
             const address = "0x32f7283006d3D025ddFfAe645312d15eBaAF0Bbc" // Your account address goes here
             console.log("Getting batch at address: " + address);
             var randomString = await new web3.eth.Contract(abi, address);
             var returnedString = await randomString.methods.get().call();
             this.returnedString = returnedString
             console.log("Returned from Ethereum",returnedString)
+            // return newBatch;
+            // let getString = await ContractTasks.Get(g_Web3, address);  
+            // console.log("String from Ethereum", getString)
+        },
+        async setMessageToETH () {
+            const address = "0x32f7283006d3D025ddFfAe645312d15eBaAF0Bbc" // Your account address goes here
+            console.log("Getting batch at address: " + address);
+            var randomString = await new web3.eth.Contract(abi, address);
+            // var returnedString = await randomString.methods.set("Testing").call();
+            var TokenSuccess = await randomString.methods.set(this.bookImgHashUrl).send({ gasLimit: "1000000",  from: this.store.OWNER_ADDRESS });
+            // this.returnedString = returnedString
+            // this.currentEthImageUrl = TokenSuccess
+            console.log("Set To Ethereum Success", TokenSuccess)
             // return newBatch;
             // let getString = await ContractTasks.Get(g_Web3, address);  
             // console.log("String from Ethereum", getString)
