@@ -38,6 +38,8 @@
                     v-textarea(
                         v-model="bookDescription"
                         label="Description"
+                        :rules="rules"
+                        counter="360"
                     )
                     v-text-field(
                         v-model="bookKeywords"
@@ -45,12 +47,18 @@
                         )
                     v-card-actions.mx-auto
                         v-btn(@click="createJson") Create JSON
-                        v-btn(@click="sendListingToETH") Buy Featured Slot
+                v-card(light)
+                    v-card-title
+                        h2 Buy Slots
+                    v-card-text
+                    v-card-actions
+                        v-btn(@click="buyFeaturedSlot") Buy Featured Slot
+                        v-btn(@click="buyAuthorSlot") Buy Author Slot
                         //- v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
                     v-card-text
                         p {{listingStuffJson}}
-                        p Listing IPFS Hash: {{listingJsonHash}}
-                        a(:href="listingJsonHashUrl" download target="_blank") Link
+                        //- p Listing IPFS Hash: {{listingJsonHash}}
+                        //- a(:href="listingJsonHashUrl" download target="_blank") Link
                     //- v-card.pa-5.ma-5(light)
                     //-     v-btn(@click="getMessageFromETH") Get Current Featured
                     //-     p.mt-3 This image is coming from a Smart Contract on Ethereum from IPFS
@@ -82,6 +90,7 @@ import {store} from '../store'
 export default {
     data () {
         return {
+            rules: [v => v.length <= 360 || 'Max 360 characters'],
             file: null,
             selectedFile: null,
             fileBuffer: null,
@@ -125,8 +134,16 @@ export default {
         //     // let getString = await ContractTasks.Get(g_Web3, address);  
         //     // console.log("String from Ethereum", getString)
         // },
+        buyFeaturedSlot () {
+            this.store.selectedContractAddress = this.store.FeaturedContractAddress
+            this.sendListingToETH();
+        },
+        buyAuthorSlot () {
+            this.store.selectedContractAddress = this.store.AuthorContractAddress
+            this.sendListingToETH();
+        },
         async sendListingToETH () {
-            const address = "0x32f7283006d3D025ddFfAe645312d15eBaAF0Bbc" // Your account address goes here
+            const address = this.store.selectedContractAddress // Your account address goes here
             console.log("Getting batch at address: " + address);
             var randomString = await new web3.eth.Contract(abi, address);
             // var returnedString = await randomString.methods.set("Testing").call();
@@ -180,6 +197,7 @@ export default {
                 // var arrayBuffer = reader.result;
                 // this.fileBuffer = new Uint8Array(arrayBuffer);
             console.log("Buffer: ", this.bookImgBuffer);
+            this.bookImgUploadIpfs();
             }
         },
         encryptFile () {

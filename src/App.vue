@@ -5,7 +5,7 @@
       app
       clipped
     >
-      <v-img class="mx-auto mt-5" src="https://infura.io/ipfs/QmP3Gb6zmUtA4JGMbvBNzK2PXaRQUagbRdPWTNVQCo5due" max-width="200px" contain></v-img>
+      <v-img class="mx-auto mt-5" src="https://ipfs.io/ipfs/QmP3Gb6zmUtA4JGMbvBNzK2PXaRQUagbRdPWTNVQCo5due" max-width="180px" contain></v-img>
       <v-list dense>
         <v-list-item
           v-for="item in items"
@@ -76,7 +76,7 @@
       >
         <v-text-field
           :append-icon-cb="() => {}"
-          placeholder="Search..."
+          placeholder="Input Author Contract..."
           single-line
           append-icon="search"
           color="white"
@@ -85,8 +85,24 @@
       </v-row>
     </v-app-bar>
 
-    <v-content>      
-      <book></book>
+    <v-content>
+      <v-container>
+         <v-row no-gutters>
+            <v-col cols="4">
+              <h2>Featured</h2>
+              <book :bookAddress="this.store.FeaturedContractAddress"></book>
+            </v-col>
+            <v-col cols="4">
+              <h2>Current Resident Author</h2>
+              <book :bookAddress="this.store.AuthorContractAddress"></book>
+            </v-col>
+            <v-col cols="4">
+              <h2>Upcoming Game Changer</h2>
+              <book></book>
+            </v-col>
+          </v-row>
+        </v-container>      
+      
       <upload></upload>
       <box :address="OWNER_ADDRESS"></box>
       <textile></textile>
@@ -114,6 +130,8 @@ import {store} from './store'
       source: String,
     },
     data: () => ({
+      FeaturedBook: '',
+      AuthorBook: '',
       drawer: null,
       items: [
         { icon: 'home', text: 'Home' },
@@ -141,5 +159,13 @@ import {store} from './store'
             });
       console.log("What is our web3 address?",this.web3account)
     },
+    methods: {
+      revealFeatured () {
+        this.FeaturedBook = this.store.FeaturedContractAddress
+      },
+      revealAuthor () {
+
+      }
+    }
   }
 </script>
