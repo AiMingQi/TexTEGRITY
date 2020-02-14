@@ -1,7 +1,7 @@
 <template lang="pug">
     v-container
         v-card(light)
-            v-btn(@click="getMessageFromETH") Reveal Featured
+            v-btn(@click="getMessageFromETH" block large color="orange") Reveal Featured
         v-card.mx-auto.pa-3(max-width="420" )
             v-img.white--text.align-end(
                 height="400px"
