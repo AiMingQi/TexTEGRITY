@@ -45,17 +45,17 @@
                         )
                     v-card-actions.mx-auto
                         v-btn(@click="createJson") Create JSON
-                        v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
+                        v-btn(@click="sendListingToETH") Buy Featured Slot
+                        //- v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
                     v-card-text
                         p {{listingStuffJson}}
                         p Listing IPFS Hash: {{listingJsonHash}}
                         a(:href="listingJsonHashUrl" download target="_blank") Link
-                    v-card.pa-5.ma-5(light)
-                        v-btn(@click="getMessageFromETH") Get Current Featured
-                        p.mt-3 This image is coming from a Smart Contract on Ethereum from IPFS
-                        v-img.mx-auto(:src="returnedString" max-width="600px")
-                            span.blue--text.ml-5 {{bookImgHashUrl}}
-                        v-btn(@click="setMessageToETH") Set Featured
+                    //- v-card.pa-5.ma-5(light)
+                    //-     v-btn(@click="getMessageFromETH") Get Current Featured
+                    //-     p.mt-3 This image is coming from a Smart Contract on Ethereum from IPFS
+                    //-     span.blue--text.ml-5 {{returnedJson}}
+                        
                 //- v-file-input(
                 //-     show-size 
                 //-     label="File input"
@@ -99,6 +99,7 @@ export default {
             bookDescription: 'This book will continue what the first started. The last book was a collection of all the crazy stories in my life. I tried to not only make sense of the absurd, but also to hopefully give my kids, and you, an alternate perspective on life. These are true stories from my life infused with some twists and turns that happen to each and every one of us. Daily.',
             bookKeywords: "#Pegabuffacorn #ChanceEncounters",
             returnedString: "",
+            returnedJson: {},
             currentEthImageUrl: "",
             listingStuffJson: {
                 
@@ -112,23 +113,24 @@ export default {
         //     var newBatch = await new web3.eth.Contract(Batch.abi, address);
         //     return newBatch;
         // },
-        async getMessageFromETH () {
-            const address = "0x32f7283006d3D025ddFfAe645312d15eBaAF0Bbc" // Your account address goes here
-            console.log("Getting batch at address: " + address);
-            var randomString = await new web3.eth.Contract(abi, address);
-            var returnedString = await randomString.methods.get().call();
-            this.returnedString = returnedString
-            console.log("Returned from Ethereum",returnedString)
-            // return newBatch;
-            // let getString = await ContractTasks.Get(g_Web3, address);  
-            // console.log("String from Ethereum", getString)
-        },
-        async setMessageToETH () {
+        // async getMessageFromETH () {
+        //     const address = "0x32f7283006d3D025ddFfAe645312d15eBaAF0Bbc" // Your account address goes here
+        //     console.log("Getting batch at address: " + address);
+        //     var randomString = await new web3.eth.Contract(abi, address);
+        //     var returnedString = await randomString.methods.get().call();
+        //     this.returnedString = returnedString
+        //     this.returnedJson = JSON.parse(returnedString)
+        //     console.log("Returned from Ethereum",returnedString)
+        //     // return newBatch;
+        //     // let getString = await ContractTasks.Get(g_Web3, address);  
+        //     // console.log("String from Ethereum", getString)
+        // },
+        async sendListingToETH () {
             const address = "0x32f7283006d3D025ddFfAe645312d15eBaAF0Bbc" // Your account address goes here
             console.log("Getting batch at address: " + address);
             var randomString = await new web3.eth.Contract(abi, address);
             // var returnedString = await randomString.methods.set("Testing").call();
-            var TokenSuccess = await randomString.methods.set(this.bookImgHashUrl).send({ gasLimit: "1000000",  from: this.store.OWNER_ADDRESS });
+            var TokenSuccess = await randomString.methods.set(JSON.stringify(this.listingStuffJson)).send({ gasLimit: "1000000",  from: this.store.OWNER_ADDRESS });
             // this.returnedString = returnedString
             // this.currentEthImageUrl = TokenSuccess
             console.log("Set To Ethereum Success", TokenSuccess)
@@ -138,11 +140,14 @@ export default {
         },
         createJson () {
             let listingStuff = {
+                "bookID": this.rawNow,
                 "img": this.bookImgHashUrl,
                 "title": this.bookTitle,
                 "price": this.bookPrice,
                 "description": this.bookDescription,
-                "keywords": this.bookKeywords
+                "keywords": this.bookKeywords,
+                "author": this.bookAuthor,
+                "authorEthAddress": this.store.OWNER_ADDRESS
             }
             this.listingStuffJson = listingStuff
             // console.log("Book Listing", listingStuff)
@@ -199,7 +204,7 @@ export default {
             console.log("Uploading...", this.listingStuffJson);
             const listJsonString = JSON.stringify(this.listingStuffJson)
             const buffer = Buffer.from(listJsonString)
-            ipfs.add(buffer, (error, result) => {
+            ipfs.add(buffer, {pin: true}, (error, result) => {
                 if (error || !result) {
                     console.log("Error!")
                     return;
@@ -259,6 +264,10 @@ export default {
 
             const listingJson = JSON.stringify(this.arr)
             return listingJson
+        },
+        rawNow: function () {
+            let now = Date.now()
+            return now;
         },
         now: function () {
             let now = Date.now()

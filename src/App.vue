@@ -90,6 +90,7 @@
       <upload></upload>
       <fortmatic></fortmatic>
       <box :address="OWNER_ADDRESS"></box>
+      <textile></textile>
     </v-content>
   </v-app>
 </template>
@@ -99,6 +100,7 @@ import book from "./components/book.vue"
 import upload from "./components/upload.vue"
 import fortmatic from "./components/fortmatic.vue"
 import box from "./components/3box.vue"
+import textile from "./components/textile.vue"
 import web3 from "./web3"
 import {store} from './store'
 
@@ -108,7 +110,8 @@ import {store} from './store'
       book,
       upload,
       fortmatic,
-      box
+      box,
+      textile
     },
     props: {
       source: String,
