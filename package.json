@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "3box": "^1.16.2",
-    "@portis/web3": "^2.0.0-beta.54",
     "@textile/js-http-client": "^1.1.0",
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
@@ -17,7 +16,6 @@
     "core-js": "^3.6.4",
     "fibers": "^4.0.2",
     "ipfs-api": "^26.1.2",
-    "ipfs-http-client": "^42.0.0",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "profile-hover": "^1.1.1",
