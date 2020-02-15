@@ -14,10 +14,10 @@ jobs:
     steps:
     - name: Bucket push action
       id: push
-      uses: textileio/github-action-bucket-push@v1
+      uses: textileio/github-action-bucket-push@v3
       with:
         bucket-name: 'distro'
-        path: '/distro'
+        path: 'distro/*'
         token: ${{ secrets.TEXTILE_AUTH_TOKEN }}
     # Use the output from the `hello` step
     - name: Get the output CID
