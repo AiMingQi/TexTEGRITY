@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Update a Textile bucket
     steps:
+    - name: Checkout
+      uses: actions/checkout@v1
     - name: Bucket push action
       id: push
       uses: textileio/github-action-bucket-push@v3
