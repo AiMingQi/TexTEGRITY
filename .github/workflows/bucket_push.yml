@@ -16,7 +16,7 @@ jobs:
       id: push
       uses: textileio/github-action-bucket-push@v1
       with:
-        bucket-name: 'bucket-push-action'
+        bucket-name: 'distro'
         path: '*'
         token: ${{ secrets.TEXTILE_AUTH_TOKEN }}
     # Use the output from the `hello` step
