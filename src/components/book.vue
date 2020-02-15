@@ -10,12 +10,20 @@
                 position="top center"
                 )
             v-btn(
-                color="orange"
+                color="green"
                 text
                 block
                 large
                 @click="buyBook"
-                ) Buy Book
+                ) Buy Book with Ethereum
+            v-btn(
+                color="orange"
+                text
+                block
+                large
+                :href="amazonAddress"
+                target="_blank"
+            ) Buy On Amazon
             v-card-title.mt-3
                 h2 {{bookTitle}}
             v-card-subtitle.pb-0.mb-3
@@ -54,6 +62,7 @@ export default {
             bookAuthor: "The Pegabuffacorn",
             authorEthAddress: "",
             bookAuthorEthAddress: "",
+            amazonAddress: "",
             store        
         }
     },
@@ -84,6 +93,7 @@ export default {
             this.bookPrice = bookListing.price
             this.bookAuthor = bookListing.author
             this.bookAuthorEthAddress = bookListing.authorEthAddress
+            this.amazonAddress = bookListing.amazonReferralLink
 
             console.log("Returned from Ethereum", bookListing)
             // return newBatch;

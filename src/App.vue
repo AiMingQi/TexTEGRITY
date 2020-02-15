@@ -98,14 +98,13 @@
             </v-col>
             <v-col cols="4">
               <h2>Upcoming Game Changer</h2>
-              <book></book>
+              <book :bookAddress="this.store.GameChangerContractAddress"></book>
             </v-col>
           </v-row>
         </v-container>      
       
       <upload></upload>
       <box :address="OWNER_ADDRESS"></box>
-      <textile></textile>
     </v-content>
   </v-app>
 </template>
@@ -114,7 +113,6 @@
 import book from "./components/book.vue"
 import upload from "./components/upload.vue"
 import box from "./components/3box.vue"
-import textile from "./components/textile.vue"
 import web3 from "./web3"
 import {store} from './store'
 
@@ -124,7 +122,6 @@ import {store} from './store'
       book,
       upload,
       box,
-      textile
     },
     props: {
       source: String,

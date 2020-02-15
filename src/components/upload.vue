@@ -45,6 +45,10 @@
                         v-model="bookKeywords"
                         label="Keywords"
                         )
+                    v-text-field(
+                        v-model="amazonReferralLink"
+                        label="Amazon Referral Link"
+                        )
                     v-card-actions.mx-auto
                         v-btn(@click="createJson") Create JSON
                 v-card(light)
@@ -54,7 +58,8 @@
                     v-card-actions
                         v-btn(@click="buyFeaturedSlot") Buy Featured Slot
                         v-btn(@click="buyAuthorSlot") Buy Author Slot
-                        //- v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
+                        v-btn(@click="buyGameChangerSlot") Buy Game Changer Slot
+                        v-btn(@click="bookListingUploadIpfs") Send JSON to IPFS
                     v-card-text
                         p {{listingStuffJson}}
                         //- p Listing IPFS Hash: {{listingJsonHash}}
@@ -110,6 +115,7 @@ export default {
             returnedString: "",
             returnedJson: {},
             currentEthImageUrl: "",
+            amazonReferralLink: "",
             listingStuffJson: {
                 
             },
@@ -142,6 +148,10 @@ export default {
             this.store.selectedContractAddress = this.store.AuthorContractAddress
             this.sendListingToETH();
         },
+        buyGameChangerSlot () {
+            this.store.selectedContractAddress = this.store.GameChangerContractAddress
+            this.sendListingToETH();
+        },
         async sendListingToETH () {
             const address = this.store.selectedContractAddress // Your account address goes here
             console.log("Getting batch at address: " + address);
@@ -164,7 +174,8 @@ export default {
                 "description": this.bookDescription,
                 "keywords": this.bookKeywords,
                 "author": this.bookAuthor,
-                "authorEthAddress": this.store.OWNER_ADDRESS
+                "authorEthAddress": this.store.OWNER_ADDRESS,
+                "amazonReferralLink": this.amazonReferralLink
             }
             this.listingStuffJson = listingStuff
             // console.log("Book Listing", listingStuff)
