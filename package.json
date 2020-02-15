@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "node --max_old_space_size=8192 node_modules/.bin/vue-cli-service build --report",
+    "lint": "vue-cli-service lint",
+    "help": "vue-cli-service build -h"
   },
   "dependencies": {
     "3box": "^1.16.2",
@@ -15,10 +16,13 @@
     "babel-register": "^6.26.0",
     "core-js": "^3.6.4",
     "fibers": "^4.0.2",
+    "fortmatic": "^1.1.3",
     "ipfs-api": "^26.1.2",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "profile-hover": "^1.1.1",
+    "pug": "^2.0.4",
+    "pug-plain-loader": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "vue": "^2.6.11",
