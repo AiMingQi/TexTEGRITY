@@ -1,14 +1,14 @@
 <template lang="pug">
     v-container
         v-card
-            v-card-title 
+            v-card-title
                 h2 Author Upload
             v-card.pa-5
                 p {{now}}
                 v-card.pa-5(light)
                     h3 Step 1 - Upload Book Cover Image to IPFS (.png or .jpg)- Max size 1MB
                     v-file-input(
-                        show-size 
+                        show-size
                         label="Book Cover"
                         accept=".png,.jpg"
                         v-model="bookCoverImg"
@@ -70,9 +70,9 @@
                     //-     v-btn(@click="getMessageFromETH") Get Current Featured
                     //-     p.mt-3 This image is coming from a Smart Contract on Ethereum from IPFS
                     //-     span.blue--text.ml-5 {{returnedJson}}
-                        
+
                 //- v-file-input(
-                //-     show-size 
+                //-     show-size
                 //-     label="File input"
                 //-     v-model="file"
                 //-     )v-btn.mx-3(@click="uploadFile") Create Buffer
@@ -83,14 +83,15 @@
                 //-     p {{fileHash}}
                 //-     p {{fileHashUrl}}
                 //-     a(:href="fileHashUrl" download target="_blank") Link
-                    
+
 
 </template>
 <script>
 import ipfs from '../ipfs'
 import moment from 'moment'
 import axios from 'axios'
-import web3 from '../web3'
+//import web3 from '../web3'
+import '../fortmatic'
 import abi from '../contracts/TexTEGRITY.json';
 import {store} from '../store'
 
@@ -120,7 +121,7 @@ export default {
             currentEthImageUrl: "",
             amazonReferralLink: "",
             listingStuffJson: {
-                
+
             },
             store
         }
@@ -140,7 +141,7 @@ export default {
         //     this.returnedJson = JSON.parse(returnedString)
         //     console.log("Returned from Ethereum",returnedString)
         //     // return newBatch;
-        //     // let getString = await ContractTasks.Get(g_Web3, address);  
+        //     // let getString = await ContractTasks.Get(g_Web3, address);
         //     // console.log("String from Ethereum", getString)
         // },
         buyFeaturedSlot () {
@@ -158,14 +159,14 @@ export default {
         async sendListingToETH () {
             const address = this.store.selectedContractAddress // Your account address goes here
             console.log("Getting batch at address: " + address);
-            var randomString = await new web3.eth.Contract(abi, address);
+            var randomString = await new window.web3.eth.Contract(abi, address);
             // var returnedString = await randomString.methods.set("Testing").call();
             var TokenSuccess = await randomString.methods.set(JSON.stringify(this.listingStuffJson)).send({ gasLimit: "1000000",  from: this.store.OWNER_ADDRESS });
             // this.returnedString = returnedString
             // this.currentEthImageUrl = TokenSuccess
             console.log("Set To Ethereum Success", TokenSuccess)
             // return newBatch;
-            // let getString = await ContractTasks.Get(g_Web3, address);  
+            // let getString = await ContractTasks.Get(g_Web3, address);
             // console.log("String from Ethereum", getString)
         },
         createJson () {
@@ -190,7 +191,7 @@ export default {
         },
         selectFile (event) {
             this.selectedFile = event
-            
+
         },
         // uploadFile () {
         //     const reader = new FileReader;
@@ -290,7 +291,7 @@ export default {
             //         return
             //     }
             // })
-        
+
     },
     computed: {
         bookListingJSON: function () {
@@ -306,7 +307,7 @@ export default {
             let now = Date.now()
             let formatedNow = moment(now).format('MMMM Do YYYY, h:mm:ss a');
             return formatedNow;
-        } 
+        }
     }
 }
 </script>

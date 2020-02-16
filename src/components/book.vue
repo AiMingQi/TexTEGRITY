@@ -30,7 +30,7 @@
                 h3 By {{bookAuthor}}
                 //- h4 Author's Ethereum Address: {{bookAuthorEthAddress}}
             v-card-text.text--primary
-                div 
+                div
                     p {{bookDescription}}
                     p {{bookKeywords}}
                 a(href="https://cryptorado.com/" target="_blank" rel="noopener")
@@ -43,12 +43,13 @@
                             rel="noopener"
                             text
                             ) Share
-               
-            
+
+
 </template>
 
 <script>
-import web3 from "../web3"
+//import web3 from "../web3"
+import "../fortmatic"
 import abi from '../contracts/TexTEGRITY.json';
 import {store} from '../store'
 
@@ -83,11 +84,11 @@ export default {
         async getFeaturedFromETH () {
             const address = this.bookAddress// Your account address goes here
             console.log("Getting batch at address: " + address);
-            var randomString = await new web3.eth.Contract(abi, address);
+            var randomString = await new window.web3.eth.Contract(abi, address);
             var returnedString = await randomString.methods.get().call();
             this.returnedString = returnedString
             const bookListing = JSON.parse(returnedString)
-            
+
             this.bookID = bookListing.bookID
             this.bookTitle = bookListing.title
             this.bookCoverImageUrl = bookListing.img
@@ -101,7 +102,7 @@ export default {
 
             console.log("Returned from Ethereum", bookListing)
             // return newBatch;
-            // let getString = await ContractTasks.Get(g_Web3, address);  
+            // let getString = await ContractTasks.Get(g_Web3, address);
             // console.log("String from Ethereum", getString)
         },
         // async setMessageToETH () {
@@ -114,7 +115,7 @@ export default {
         //     // this.currentEthImageUrl = TokenSuccess
         //     console.log("Set To Ethereum Success", TokenSuccess)
         //     // return newBatch;
-        //     // let getString = await ContractTasks.Get(g_Web3, address);  
+        //     // let getString = await ContractTasks.Get(g_Web3, address);
         //     // console.log("String from Ethereum", getString)
         // }
     }
