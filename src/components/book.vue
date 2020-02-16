@@ -28,11 +28,13 @@
                 h2 {{bookTitle}}
             v-card-subtitle.pb-0.mb-3
                 h3 By {{bookAuthor}}
-                h4 Author's Ethereum Address: {{bookAuthorEthAddress}}
+                //- h4 Author's Ethereum Address: {{bookAuthorEthAddress}}
             v-card-text.text--primary
                 div
                     p {{bookDescription}}
                     p {{bookKeywords}}
+                a(href="https://cryptorado.com/" target="_blank" rel="noopener")
+                    v-img(src="https://ipfs.io/ipfs/QmNossNWYgZyWaQNe42jXfmi9F1o285nbBrinFp2zbC2A2" v-show="coloradoNative")
             v-card-actions
                         v-btn(
                             color="green"
@@ -64,7 +66,8 @@ export default {
             authorEthAddress: "",
             bookAuthorEthAddress: "",
             amazonAddress: "",
-            store
+            coloradoNative: false,
+            store        
         }
     },
     created () {
@@ -95,6 +98,7 @@ export default {
             this.bookAuthor = bookListing.author
             this.bookAuthorEthAddress = bookListing.authorEthAddress
             this.amazonAddress = bookListing.amazonReferralLink
+            this.coloradoNative = bookListing.coloradoNative
 
             console.log("Returned from Ethereum", bookListing)
             // return newBatch;

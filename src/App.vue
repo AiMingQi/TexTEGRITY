@@ -151,6 +151,7 @@ import {store} from './store'
       this.$vuetify.theme.dark = true;
       console.log("Window",window.web3);
       this.web3account = window.web3.eth.getAccounts((error, accounts) => {
+
                 console.log(accounts);
                 console.log('Web3 Capable Account Found');
                 // this.OWNER_ADDRESS = accounts[0]
