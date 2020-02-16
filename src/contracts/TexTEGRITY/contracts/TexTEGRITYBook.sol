@@ -39,7 +39,7 @@ contract TexTEGRITYBook {
 
     function reStock(uint256 _amount) OnlyController public {
         amount = amount.add(_amount);
-    }
+    }x
 
     //Read Function
     // Kept for Backwards compatibility
