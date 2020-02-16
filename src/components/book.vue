@@ -28,7 +28,7 @@
                 h2 {{bookTitle}}
             v-card-subtitle.pb-0.mb-3
                 h3 By {{bookAuthor}}
-                h4 Author's Ethereum Address: {{bookAuthorEthAddress}}
+                //- h4 Author's Ethereum Address: {{bookAuthorEthAddress}}
             v-card-text.text--primary
                 div 
                     p {{bookDescription}}
