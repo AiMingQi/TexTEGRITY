@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
 import Web3 from 'web3';
 
+var ethereum = null;
 // import Portis from '@portis/web3';
 
 // const portis = new Portis('8f7a2d9f-af0e-42f5-889c-f1542aab0118', 'mainnet');
 // const web3 = new Web3(portis.provider);
 
 if (window.ethereum) {
-  window.web3 = new Web3(ethereum);
+  window.web3 = new Web3(window.ethereum);
   try {
     // Request account access if needed
     ethereum.enable();
@@ -27,5 +28,8 @@ if (window.ethereum) {
    'web3' + window.web3
   );
 }
+
+let web3 = window.web3;
+
 console.log(web3);
 export default web3;
