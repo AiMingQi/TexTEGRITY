@@ -65,7 +65,7 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="mr-12 align-left">
-        
+
         <span class="title">TexTEGRITY</span>
         <!-- <span>{{web3account}}</span> -->
       </v-toolbar-title>
@@ -101,8 +101,8 @@
               <book :bookAddress="this.store.GameChangerContractAddress"></book>
             </v-col>
           </v-row>
-        </v-container>      
-      
+        </v-container>
+
       <upload></upload>
       <box :address="OWNER_ADDRESS"></box>
     </v-content>
@@ -113,12 +113,13 @@
 import book from "./components/book.vue"
 import upload from "./components/upload.vue"
 import box from "./components/3box.vue"
-import web3 from "./web3"
+//import web3 from "./web3"
+import "./fortmatic"
 import {store} from './store'
 
 
   export default {
-    components: { 
+    components: {
       book,
       upload,
       box,
@@ -145,9 +146,11 @@ import {store} from './store'
       OWNER_ADDRESS: null,
       store
     }),
+
     created () {
-      this.$vuetify.theme.dark = true
-      this.web3account = web3.eth.getAccounts((error, accounts) => {
+      this.$vuetify.theme.dark = true;
+      console.log("Window",window.web3);
+      this.web3account = window.web3.eth.getAccounts((error, accounts) => {
                 console.log(accounts);
                 console.log('Web3 Capable Account Found');
                 // this.OWNER_ADDRESS = accounts[0]
