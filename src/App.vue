@@ -146,6 +146,7 @@ import {store} from './store'
       store
     }),
     created () {
+      console.log(process.env.VUE_APP_FIREBASE_CONFIG_SUCCESS1)
       this.$vuetify.theme.dark = true
       this.web3account = web3.eth.getAccounts((error, accounts) => {
                 console.log(accounts);
