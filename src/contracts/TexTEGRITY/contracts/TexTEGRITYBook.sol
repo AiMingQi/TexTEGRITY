@@ -41,6 +41,12 @@ contract TexTEGRITYBook {
         amount = amount.add(_amount);
     }
 
+    //Read Function
+    // Kept for Backwards compatibility
+    function get() public view returns (string memory) {
+        return textHash;
+    }
+
 
     // Public Read Functions
     function getMeta() public view returns (string memory) {
