@@ -63,16 +63,24 @@ contract TexTEGRITYFactory {
       return author_whitelist[_author].listingSlots;
   }
 
+  function listingCost() public view returns(uint256) {
+      return listingSlotCost;
+  }
+
 
   // Author Management //
 
   function whiteListAuthor(address _author, string memory _author_name) OnlyOwner public {
     author_whitelist[_author] = AuthorListing(true, false, 0, _author_name);
+    
+    emit AuthorWhitelisted(_author, _author_name);
   }
 
   function blackListAuthor(address _author) OnlyOwner public {
     author_whitelist[_author].isListed = false;
     author_whitelist[_author].isActive = false;
+
+    emit AuthorBlacklisted(_author, author_whitelist[_author].name);
   }
 
   // Author Functions //
@@ -84,6 +92,8 @@ contract TexTEGRITYFactory {
       if (author_whitelist[msg.sender].listingSlots <= 0) {
          author_whitelist[msg.sender].isActive = false;
       }
+
+      emit BookListed(address(book), msg.sender, _amount);
   }
 
   // Author can Purchase Slots //
@@ -103,6 +113,14 @@ contract TexTEGRITYFactory {
           msg.sender.transfer(msg.value.sub(total_bill));
       }
 
+      emit SlotsPurchased(msg.sender, slot_number);
+
   }
+
+  event AuthorWhitelisted(address _author, string _name);
+  event AuthorBlacklisted(address _author, string _name);
+  event SlotsPurchased(address _author, uint256 _number);
+  event BookListed(address _contract_ref, address _author, uint256 _amount);
+
 
 }
