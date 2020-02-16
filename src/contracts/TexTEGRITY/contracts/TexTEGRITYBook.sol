@@ -2,7 +2,6 @@ pragma solidity ^0.6.0;
 
 import './math/SafeMath.sol';
 
-
 contract TexTEGRITYBook {
     using SafeMath for uint256;
 
@@ -44,7 +43,7 @@ contract TexTEGRITYBook {
 
 
     // Public Read Functions
-    function get() public view returns (string memory) {
+    function getMeta() public view returns (string memory) {
         return textHash;
     }
 

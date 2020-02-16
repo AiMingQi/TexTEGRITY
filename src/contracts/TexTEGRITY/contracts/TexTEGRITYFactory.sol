@@ -1,7 +1,7 @@
 pragma solidity ^0.6.0;
 
-import './SafeMath.sol';
-import './TexTEGRITY.sol';
+import './math/SafeMath.sol';
+import './TexTEGRITYBook.sol';
 
 contract TexTEGRITYFactory {
   using SafeMath for uint256;
@@ -72,7 +72,7 @@ contract TexTEGRITYFactory {
 
   function whiteListAuthor(address _author, string memory _author_name) OnlyOwner public {
     author_whitelist[_author] = AuthorListing(true, false, 0, _author_name);
-    
+
     emit AuthorWhitelisted(_author, _author_name);
   }
 
@@ -86,7 +86,7 @@ contract TexTEGRITYFactory {
   // Author Functions //
   function listBookForSale(string memory _title, string memory _bookMeta, uint256 _amount) OnlyFullWhiteListed public {
       author_whitelist[msg.sender].listingSlots = author_whitelist[msg.sender].listingSlots.sub(1);
-      TexTEGRITY book = new TexTEGRITY(_title, msg.sender, _bookMeta, _amount);
+      TexTEGRITYBook book = new TexTEGRITYBook(_title, msg.sender, _bookMeta, _amount);
       __addBook(address(book), msg.sender, _bookMeta, block.timestamp, true);
 
       if (author_whitelist[msg.sender].listingSlots <= 0) {
