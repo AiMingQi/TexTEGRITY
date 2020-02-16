@@ -33,6 +33,7 @@
                 div 
                     p {{bookDescription}}
                     p {{bookKeywords}}
+                v-img(src="https://ipfs.io/ipfs/QmNossNWYgZyWaQNe42jXfmi9F1o285nbBrinFp2zbC2A2" v-show="coloradoNative")
             v-card-actions
                         v-btn(
                             color="green"
@@ -63,6 +64,7 @@ export default {
             authorEthAddress: "",
             bookAuthorEthAddress: "",
             amazonAddress: "",
+            coloradoNative: false,
             store        
         }
     },
@@ -94,6 +96,7 @@ export default {
             this.bookAuthor = bookListing.author
             this.bookAuthorEthAddress = bookListing.authorEthAddress
             this.amazonAddress = bookListing.amazonReferralLink
+            this.coloradoNative = bookListing.coloradoNative
 
             console.log("Returned from Ethereum", bookListing)
             // return newBatch;

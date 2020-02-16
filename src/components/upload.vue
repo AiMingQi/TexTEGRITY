@@ -47,8 +47,10 @@
                         )
                     v-text-field(
                         v-model="amazonReferralLink"
-                        label="Amazon Referral Link"
+                        label="Offsite Referral Link"
                         )
+                    v-switch(v-model="coloradoNative" label="Colorado Native Product")
+                    v-img.mx-auto(src="https://ipfs.io/ipfs/QmNossNWYgZyWaQNe42jXfmi9F1o285nbBrinFp2zbC2A2" max-width="300px" v-show="coloradoNative")
                     v-card-actions.mx-auto
                         v-btn(@click="createJson") Create JSON
                 v-card(light)
@@ -95,6 +97,7 @@ import {store} from '../store'
 export default {
     data () {
         return {
+            coloradoNative: false,
             rules: [v => v.length <= 360 || 'Max 360 characters'],
             file: null,
             selectedFile: null,
@@ -175,7 +178,8 @@ export default {
                 "keywords": this.bookKeywords,
                 "author": this.bookAuthor,
                 "authorEthAddress": this.store.OWNER_ADDRESS,
-                "amazonReferralLink": this.amazonReferralLink
+                "amazonReferralLink": this.amazonReferralLink,
+                "coloradoNative": this.coloradoNative
             }
             this.listingStuffJson = listingStuff
             // console.log("Book Listing", listingStuff)
