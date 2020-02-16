@@ -33,7 +33,8 @@
                 div 
                     p {{bookDescription}}
                     p {{bookKeywords}}
-                v-img(src="https://ipfs.io/ipfs/QmNossNWYgZyWaQNe42jXfmi9F1o285nbBrinFp2zbC2A2" v-show="coloradoNative")
+                a(href="https://cryptorado.com/" target="_blank" rel="noopener")
+                    v-img(src="https://ipfs.io/ipfs/QmNossNWYgZyWaQNe42jXfmi9F1o285nbBrinFp2zbC2A2" v-show="coloradoNative")
             v-card-actions
                         v-btn(
                             color="green"
