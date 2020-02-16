@@ -49,10 +49,22 @@ contract TexTEGRITYFactory {
       books_by_author[msg.sender].push(Book(_book_ref, _author, _bookMeta, _added_on, is_viewable));
   }
 
-  function listBookForSale(string memory _title, string memory _bookMeta, uint256 _amount) OnlyFullWhiteListed public {
-      TexTEGRITY book = new TexTEGRITY(_title, msg.sender, _bookMeta, _amount);
-      __addBook(address(book), msg.sender, _bookMeta, block.timestamp, true);
+  // View Functions //
+
+  function isAuthorListed(address _author) public view returns (bool) {
+      return author_whitelist[_author].isListed;
   }
+
+  function isAuthorActive(address _author) public view returns (bool) {
+      return author_whitelist[_author].isActive;
+  }
+
+  function authorSlots(address _author) public view returns (uint256) {
+      return author_whitelist[_author].listingSlots;
+  }
+
+
+  // Author Management //
 
   function whiteListAuthor(address _author, string memory _author_name) OnlyOwner public {
     author_whitelist[_author] = AuthorListing(true, false, 0, _author_name);
@@ -63,6 +75,18 @@ contract TexTEGRITYFactory {
     author_whitelist[_author].isActive = false;
   }
 
+  // Author Functions //
+  function listBookForSale(string memory _title, string memory _bookMeta, uint256 _amount) OnlyFullWhiteListed public {
+      author_whitelist[msg.sender].listingSlots = author_whitelist[msg.sender].listingSlots.sub(1);
+      TexTEGRITY book = new TexTEGRITY(_title, msg.sender, _bookMeta, _amount);
+      __addBook(address(book), msg.sender, _bookMeta, block.timestamp, true);
+
+      if (author_whitelist[msg.sender].listingSlots <= 0) {
+         author_whitelist[msg.sender].isActive = false;
+      }
+  }
+
+  // Author can Purchase Slots //
   function purchaseSlots() OnlyListed payable public returns(uint256){
 
       uint256 slot_number = msg.value.div(listingSlotCost);
